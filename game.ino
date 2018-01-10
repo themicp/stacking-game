@@ -86,7 +86,7 @@ void renderGame() {
     // Show the Map on the LED Matrix
     for (int i = 0; i < ROWS; ++i) {
         for (int j = 0; j < COLS; ++j) {
-            lc.setLed(0, i, j, Map[i][j]);
+            lc.setLed(0, j, i, Map[i][j]);
         }
     }
 }
@@ -179,8 +179,8 @@ void loop() {
     // and we should stick the bar
     if (buttonState == HIGH && !throttleButton) {
         throttleButton = true;
-        // stickBar();
-    } else {
+        stickBar();
+    } else if (buttonState == LOW) {
         throttleButton = false;
     }
 }
