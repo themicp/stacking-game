@@ -8,11 +8,8 @@ using namespace std;
 const int ROWS = 16;
 const int COLS = 8;
 
-int barRow = ROWS - 1,
-    barCol = 0,
-    barLength = 5;
-char direction = 'r';
-
+int barRow, barCol, barLength;
+char direction;
 int **Map;
 
 void populateNewMap() {
@@ -30,6 +27,19 @@ void addBar(int barRow, int barCol, int barLength) {
     for (int j = 0; j < barLength; ++j) {
         Map[barRow][barCol + j] = 1;
     }
+}
+
+void initGame() {
+    barRow = ROWS - 1;
+    barCol = 0;
+    barLength = 5;
+    direction = 'r';
+
+    // generate a new Map
+    populateNewMap();
+    // add the bar at the bottom of the map
+    addBar(barRow, barCol, barLength);
+    cout << "Starting new game." << endl;
 }
 
 void moveBar() {
@@ -113,8 +123,7 @@ void printMap() {
 }
 
 int main() {
-    populateNewMap();
-    addBar(barRow, barCol, barLength);
+    initGame();
     printMap();
 
     /*
