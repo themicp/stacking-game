@@ -1,13 +1,11 @@
 const int ROWS = 16;
 const int COLS = 8;
 
-int barRow = ROWS - 1,
-    barCol = 0,
-    barLength = 5;
-char direction = 'r';
-
+int barRow, barCol, barLength;
+char direction;
 int **Map;
 
+// generates an empty new Map
 void populateNewMap() {
     Map = new int*[ROWS];
     for (int i = 0; i < ROWS; ++i) {
@@ -19,12 +17,28 @@ void populateNewMap() {
     }
 }
 
+// add the bar to the specified position in the map
 void addBar(int barRow, int barCol, int barLength) {
     for (int j = 0; j < barLength; ++j) {
         Map[barRow][barCol + j] = 1;
     }
 }
 
+void initGame() {
+    barRow = ROWS - 1;
+    barCol = 0;
+    barLength = 5;
+    direction = 'r';
+
+    // generate a new Map
+    populateNewMap();
+    // add the bar at the bottom of the map
+    addBar(barRow, barCol, barLength);
+    Serial.print("Starting new game.");
+}
+
+// moves the bar one position to the direction that the
+// 'direction' variable defines (right or left)
 void moveBar() {
     int *rowClone = new int[COLS];
     for (int i = 0; i < COLS; ++i) {
@@ -75,6 +89,7 @@ void tick() {
     renderGame();
 }
 
+// locks the bar in position and checks if we won or lost
 void stickBar() {
     if (barRow < ROWS - 1) {
         int oldBarLength = barLength;
@@ -101,6 +116,7 @@ void stickBar() {
     addBar(barRow, barCol, barLength);
 }
 
+// prints the map in the terminal for debugging
 void printMap() {
     for (int i = 0; i < ROWS; ++i) {
         for (int j = 0; j < COLS; ++j) {
@@ -121,18 +137,29 @@ void setup() {
     // initialize the pushbutton pin as an input:
     pinMode(buttonPin, INPUT);
 
-    populateNewMap();
-    addBar(barRow, barCol, barLength);
+    initGame();
+    // debugging
     printMap();
 }
 
+long interval = 120;        // we want to move the bar at some regular intervals
+long previousMillis = 0;
 void loop() {
-    tick();
-    printMap();
+    unsigned long currentMillis = millis();
 
-    // read the state of the pushbutton value:
+    if (currentMillis - previousMillis > interval) {
+        // check if the interval time has passed since the last time
+        // we moved the bar
+        tick();
+        printMap();
+
+        previousMillis = currentMillis;
+    }
+
+    // read the state of the pushbutton value
     buttonState = digitalRead(buttonPin);
-    // check if the pushbutton is pressed. If it is, the buttonState is HIGH:
+    // check if the pushbutton is pressed. If it is, the buttonState is HIGH
+    // and we should stick the bar
     if (buttonState == HIGH && !throttleButton) {
         throttleButton = true;
         stickBar();
