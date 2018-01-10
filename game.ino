@@ -102,12 +102,12 @@ void stickBar() {
     }
 
     if (barLength == 0) {
-        Serial.print("You lost! Refresh to start again.");
+        Serial.print("You lost! Reboot to start again.");
         return;
     }
 
     if (barRow == 0) {
-        Serial.print("Congratulations, you won! Refresh to start again.");
+        Serial.print("Congratulations, you won! Reboot to start again.");
         return;
     }
 
