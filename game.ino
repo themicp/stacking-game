@@ -13,7 +13,7 @@ const int buttonPin = 2;     // the number of the pushbutton pin
 int buttonState = 0;         // variable for reading the pushbutton status
 boolean throttleButton = false; // allows the button to be activated only once at a time
 
-long interval = 120;        // we want to move the bar at some regular intervals
+long interval = 1000;        // we want to move the bar at some regular intervals
 long previousMillis = 0;
 
 // generates an empty new Map
@@ -167,7 +167,6 @@ void loop() {
         // check if the interval time has passed since the last time
         // we moved the bar
         tick();
-        printMap();
 
         previousMillis = currentMillis;
     }
@@ -178,7 +177,7 @@ void loop() {
     // and we should stick the bar
     if (buttonState == HIGH && !throttleButton) {
         throttleButton = true;
-        stickBar();
+        // stickBar();
     } else {
         throttleButton = false;
     }
