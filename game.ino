@@ -121,13 +121,13 @@ void stickBar() {
     }
 
     if (barLength <= 0) {
-        Serial.print("You lost! Reboot to start again.");
+        Serial.println("You lost! Reboot to start again.");
         gameComplete = true;
         return;
     }
 
     if (barRow <= 0) {
-        Serial.print("Congratulations, you won! Reboot to start again.");
+        Serial.println("Congratulations, you won! Reboot to start again.");
         gameComplete = true;
         return;
     }
