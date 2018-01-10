@@ -57,6 +57,10 @@ void moveBar() {
     delete[] rowClone;
 }
 
+void renderGame() {
+    // Code to show the Map on the LED Matrix
+}
+
 void tick() {
     if (direction == 'r' && barCol + barLength >= COLS) {
         direction = 'l';
@@ -67,6 +71,8 @@ void tick() {
     moveBar();
 
     barCol = direction == 'r' ? barCol + 1 : barCol - 1;
+
+    renderGame();
 }
 
 void stickBar() {
