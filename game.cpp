@@ -10,12 +10,12 @@ const int COLS = 8;
 
 int barRow, barCol, barLength;
 char direction;
-int **Map;
+bool **Map;
 
 void populateNewMap() {
-    Map = new int*[ROWS];
+    Map = new bool*[ROWS];
     for (int i = 0; i < ROWS; ++i) {
-        Map[i] = new int[COLS];
+        Map[i] = new bool[COLS];
 
         for (int j = 0; j < COLS; ++j) {
             Map[i][j] = 0;
@@ -43,7 +43,7 @@ void initGame() {
 }
 
 void moveBar() {
-    int *rowClone = new int[COLS];
+    bool *rowClone = new bool[COLS];
     for (int i = 0; i < COLS; ++i) {
         rowClone[i] = Map[barRow][i];
     }
