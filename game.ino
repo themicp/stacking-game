@@ -110,22 +110,22 @@ int buttonState = 0;         // variable for reading the pushbutton status
 bool throttleButton = false; // allows the button to be activated only once at a time
 
 void setup() {
-	Serial.begin(9600);      // open the serial port at 9600 bps:
+    Serial.begin(9600);      // open the serial port at 9600 bps:
 
-	// initialize the pushbutton pin as an input:
-	pinMode(buttonPin, INPUT);
+    // initialize the pushbutton pin as an input:
+    pinMode(buttonPin, INPUT);
 }
 
 void loop() {
-	tick();
+    tick();
 
-	// read the state of the pushbutton value:
-	buttonState = digitalRead(buttonPin);
-	// check if the pushbutton is pressed. If it is, the buttonState is HIGH:
+    // read the state of the pushbutton value:
+    buttonState = digitalRead(buttonPin);
+    // check if the pushbutton is pressed. If it is, the buttonState is HIGH:
     if (buttonState == HIGH && !throttleButton) {
         throttleButton = true;
         stickBar();
-	} else {
+    } else {
         throttleButton = false;
-	}
+    }
 }
