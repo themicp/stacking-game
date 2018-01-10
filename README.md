@@ -1,7 +1,9 @@
 ## Motivation
 https://photos.app.goo.gl/syawRiK87GtWTK833
 
-Demo: https://themicp.com/stacking-game
+### Demo
+
+https://themicp.com/stacking-game
 
 Press space or click on the big red button to stick the moving bar.
 
