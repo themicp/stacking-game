@@ -6,6 +6,7 @@ const int ROWS = 16;
 const int COLS = 8;
 
 int barRow, barCol, barLength;
+boolean gameComplete;
 char direction;
 boolean **Map;
 
@@ -40,6 +41,7 @@ void initGame() {
     barCol = 0;
     barLength = 5;
     direction = 'r';
+    gameComplete = false;
 
     // generate a new Map
     populateNewMap();
@@ -120,11 +122,13 @@ void stickBar() {
 
     if (barLength == 0) {
         Serial.print("You lost! Reboot to start again.");
+        gameComplete = true;
         return;
     }
 
     if (barRow == 0) {
         Serial.print("Congratulations, you won! Reboot to start again.");
+        gameComplete = true;
         return;
     }
 
@@ -179,7 +183,11 @@ void loop() {
     // and we should stick the bar
     if (buttonState == HIGH && !throttleButton) {
         throttleButton = true;
-        stickBar();
+        if (gameComplete) {
+            initGame();
+        } else {
+            stickBar();
+        }
     } else if (buttonState == LOW) {
         throttleButton = false;
     }
