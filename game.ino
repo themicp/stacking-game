@@ -114,10 +114,15 @@ void setup() {
 
     // initialize the pushbutton pin as an input:
     pinMode(buttonPin, INPUT);
+
+    populateNewMap();
+    addBar(barRow, barCol, barLength);
+    printMap();
 }
 
 void loop() {
     tick();
+    printMap();
 
     // read the state of the pushbutton value:
     buttonState = digitalRead(buttonPin);
