@@ -13,32 +13,31 @@ function generateMap(ROWS, COLS) {
     return map;
 }
 
-function moveBar(row, col, l, direction, map, COLS) {
-    let newmap = JSON.parse(JSON.stringify(map));
-    let moves = l;
-    for (let i = col; moves > 0; --moves) {
+function moveBar() {
+    let rowClone = map[barRow].slice(0);
+    let moves = barLength;
+    for (let i = barCol; moves > 0; --moves) {
         if ((i == 0 && direction == 'l') ||
             (i == COLS - 1 && direction == 'r')) {
             throw new Error('Invalid move ' + direction);
         }
 
         if (direction == 'r') {
-            newmap[row][i + 1] = map[row][i];
+            map[barRow][i + 1] = rowClone[i];
             if (i == 0) {
-                newmap[row][i] = 0;
+                map[barRow][i] = 0;
             } else {
-                newmap[row][i] = map[row][i - 1];
+                map[barRow][i] = rowClone[i - 1];
             }
         } else {
-            newmap[row][i - 1] = map[row][i];
-            newmap[row][i] = 0;
+            map[barRow][i - 1] = rowClone[i];
+            map[barRow][i] = 0;
         }
 
         ++i;
     }
-
-    return newmap;
 }
+
 function addBar(barRow, barCol, barLength) {
     for (j = 0; j < barLength; ++j) {
         map[barRow][barCol + j] = 1;
@@ -85,7 +84,7 @@ function tick() {
     }
 
     console.log(barCol, direction);
-    map = moveBar(barRow,barCol, barLength, direction, map, COLS);
+    moveBar(barRow,barCol, barLength, direction, map, COLS);
     barCol = direction == 'r' ? barCol + 1 : barCol - 1;
 
     renderGame(map);
