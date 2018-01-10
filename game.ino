@@ -103,6 +103,7 @@ void tick() {
     barCol = direction == 'r' ? barCol + 1 : barCol - 1;
 
     renderGame();
+    printMap();
 }
 
 // locks the bar in position and checks if we won or lost
@@ -134,6 +135,7 @@ void stickBar() {
 
 // prints the map in the terminal for debugging
 void printMap() {
+    Serial.print('\n');
     for (int i = 0; i < ROWS; ++i) {
         for (int j = 0; j < COLS; ++j) {
             Serial.print(Map[i][j]);
