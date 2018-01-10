@@ -1,15 +1,26 @@
+#include "LedControl.h"
+
+LedControl lc = LedControl(12,11,10,1);
+
 const int ROWS = 16;
 const int COLS = 8;
 
 int barRow, barCol, barLength;
 char direction;
-int **Map;
+boolean **Map;
+
+const int buttonPin = 2;     // the number of the pushbutton pin
+int buttonState = 0;         // variable for reading the pushbutton status
+boolean throttleButton = false; // allows the button to be activated only once at a time
+
+long interval = 120;        // we want to move the bar at some regular intervals
+long previousMillis = 0;
 
 // generates an empty new Map
 void populateNewMap() {
-    Map = new int*[ROWS];
+    Map = new boolean*[ROWS];
     for (int i = 0; i < ROWS; ++i) {
-        Map[i] = new int[COLS];
+        Map[i] = new boolean[COLS];
 
         for (int j = 0; j < COLS; ++j) {
             Map[i][j] = 0;
@@ -40,7 +51,7 @@ void initGame() {
 // moves the bar one position to the direction that the
 // 'direction' variable defines (right or left)
 void moveBar() {
-    int *rowClone = new int[COLS];
+    boolean *rowClone = new boolean[COLS];
     for (int i = 0; i < COLS; ++i) {
         rowClone[i] = Map[barRow][i];
     }
@@ -72,7 +83,12 @@ void moveBar() {
 }
 
 void renderGame() {
-    // Code to show the Map on the LED Matrix
+    // Show the Map on the LED Matrix
+    for (int i = 0; i < ROWS; ++i) {
+        for (int j = 0; j < COLS; ++j) {
+            lc.setLed(0, i, j, Map[i][j]);
+        }
+    }
 }
 
 void tick() {
@@ -127,12 +143,14 @@ void printMap() {
     Serial.print('\n');
 }
 
-const int buttonPin = 2;     // the number of the pushbutton pin
-int buttonState = 0;         // variable for reading the pushbutton status
-bool throttleButton = false; // allows the button to be activated only once at a time
-
 void setup() {
     Serial.begin(9600);      // open the serial port at 9600 bps:
+
+    lc.shutdown(0,false);
+    // Set the brightness to a medium values
+    lc.setIntensity(0, 8);
+    // and clear the display
+    lc.clearDisplay(0);
 
     // initialize the pushbutton pin as an input:
     pinMode(buttonPin, INPUT);
@@ -142,8 +160,6 @@ void setup() {
     printMap();
 }
 
-long interval = 120;        // we want to move the bar at some regular intervals
-long previousMillis = 0;
 void loop() {
     unsigned long currentMillis = millis();
 
