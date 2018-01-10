@@ -15,23 +15,26 @@ function generateMap(ROWS, COLS) {
 
 function moveBar(row, col, l, direction, map, COLS) {
     let newmap = JSON.parse(JSON.stringify(map));
-    for (let i = 0; i < l; ++i) {
-        if ((col + i == 0 && direction == 'l') ||
-            (col + i == COLS - 1 && direction == 'r')) {
+    let moves = l;
+    for (let i = col; moves > 0; --moves) {
+        if ((i == 0 && direction == 'l') ||
+            (i == COLS - 1 && direction == 'r')) {
             throw new Error('Invalid move ' + direction);
         }
 
         if (direction == 'r') {
-            newmap[row][col + i + 1] = map[row][col + i];
-            if (col + i == 0) {
-                newmap[row][col + i] = 0;
+            newmap[row][i + 1] = map[row][i];
+            if (i == 0) {
+                newmap[row][i] = 0;
             } else {
-                newmap[row][col + i] = map[row][col + i - 1];
+                newmap[row][i] = map[row][i - 1];
             }
         } else {
-            newmap[row][col + i - 1] = map[row][col + i];
-            newmap[row][col + i] = 0;
+            newmap[row][i - 1] = map[row][i];
+            newmap[row][i] = 0;
         }
+
+        ++i;
     }
 
     return newmap;
